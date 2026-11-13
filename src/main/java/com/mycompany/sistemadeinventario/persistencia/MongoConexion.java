@@ -24,6 +24,7 @@ public final class MongoConexion {
 
     private MongoConexion() { }
 
+    // Establece la conexion
     public static synchronized MongoDatabase getBaseDatos() throws ErrorBaseDatosException {
         if (baseDatos != null) {
             return baseDatos;

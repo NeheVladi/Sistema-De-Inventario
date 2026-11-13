@@ -1,8 +1,10 @@
 package com.mycompany.sistemadeinventario.modelo;
 
 import com.mycompany.sistemadeinventario.excepciones.DatosInvalidosException;
-
+// Estructura de los productos
 public class Producto {
+    
+    // Atributos
     private String codigo;
     private String nombre;
     private String descripcion;
@@ -10,6 +12,7 @@ public class Producto {
     private double precio;
     private int stock;
 
+    // Constructor
     public Producto(String codigo, String nombre, String descripcion, String categoria, double precio, int stock) {
         this.codigo = codigo == null ? null : codigo.trim();
         this.nombre = nombre == null ? null : nombre.trim();
@@ -28,6 +31,7 @@ public class Producto {
         return categoria == null || categoria.trim().isEmpty() ? Categorias.DEFECTO : categoria.trim();
     }
 
+    // Metodo para validar datos
     public boolean validarDatos() {
         return codigo != null && !codigo.trim().isEmpty()
                 && nombre != null && !nombre.trim().isEmpty()
@@ -37,6 +41,7 @@ public class Producto {
                 && stock >= 0;
     }
 
+    // Actualiza los datos
     public void actualizarStock(int cantidad) throws DatosInvalidosException {
         long nuevoStock = (long) stock + cantidad;
         if (nuevoStock < 0 || nuevoStock > Integer.MAX_VALUE) {
@@ -45,11 +50,13 @@ public class Producto {
         this.stock = (int) nuevoStock;
     }
 
+    // Valida que no sea nulo o tenga espacios.
     private boolean esTextoSeguro(String texto) {
         return texto != null && !texto.contains("|")
                 && !texto.contains("\n") && !texto.contains("\r");
     }
 
+    //Getters
     public String getCodigo() { return codigo; }
     public String getNombre() { return nombre; }
     public String getDescripcion() { return descripcion; }
@@ -57,6 +64,7 @@ public class Producto {
     public double getPrecio() { return precio; }
     public int getStock() { return stock; }
 
+    // Setters
     public void setNombre(String nombre) { this.nombre = nombre == null ? null : nombre.trim(); }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion == null ? "" : descripcion; }
     public void setCategoria(String categoria) { this.categoria = normalizarCategoria(categoria); }

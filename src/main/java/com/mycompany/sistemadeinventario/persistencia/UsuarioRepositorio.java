@@ -25,6 +25,7 @@ public class UsuarioRepositorio {
 
     private final MongoCollection<Document> coleccion;
 
+    // Conexion con la base de datos
     public UsuarioRepositorio() throws ErrorBaseDatosException {
         try {
             coleccion = MongoConexion.getBaseDatos().getCollection("usuarios");
@@ -36,6 +37,7 @@ public class UsuarioRepositorio {
         }
     }
 
+    // Busca al usuario dentro del documento
     private static Usuario aUsuario(Document doc) {
         return new Usuario(doc.getString("usuario"), doc.getString("correo"),
                 doc.getString("salt"), doc.getString("passwordHash"), doc.getString("rol"));
@@ -49,6 +51,7 @@ public class UsuarioRepositorio {
         }
     }
 
+    // crea una lista de todos los usuarios para agregarlos a una tabla
     public List<Usuario> listarTodos() throws ErrorBaseDatosException {
         List<Usuario> lista = new ArrayList<>();
         try {
@@ -61,6 +64,7 @@ public class UsuarioRepositorio {
         return lista;
     }
 
+    // Agrega a los nuevos usuarios dentro de la base de datos
     public void insertar(Usuario u) throws ErrorBaseDatosException, UsuarioDuplicadoException {
         Document doc = new Document("usuario", u.getNombreUsuario())
                 .append("usuarioLower", u.getNombreUsuario().toLowerCase(Locale.ROOT))

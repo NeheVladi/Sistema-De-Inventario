@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+// Esta clase valida que los datos existan dentro de la base de datos
 public class Persistencia {
     private Path archivo;
     private String formato = "TXT delimitado por |";
@@ -27,6 +28,7 @@ public class Persistencia {
         return Files.exists(archivo);
     }
 
+    // Este metodo guarda los datos 
     public void guardar(Inventario inventario) throws ErrorArchivoException {
         if (inventario == null) {
             throw new ErrorArchivoException("No hay un inventario para guardar.");
@@ -45,6 +47,7 @@ public class Persistencia {
         }
     }
 
+    // Este metodo extrae los datos
     public Inventario recuperar() throws ErrorArchivoException {
         Inventario inventario = new Inventario();
 

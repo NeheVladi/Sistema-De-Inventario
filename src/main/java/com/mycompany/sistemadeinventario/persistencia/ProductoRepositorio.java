@@ -22,6 +22,7 @@ import org.bson.Document;
 public class ProductoRepositorio {
     private final MongoCollection<Document> coleccion;
 
+    // Conexion al repositorio
     public ProductoRepositorio() throws ErrorBaseDatosException {
         try {
             coleccion = MongoConexion.getBaseDatos().getCollection("productos");
@@ -31,10 +32,12 @@ public class ProductoRepositorio {
         }
     }
 
+    // Normaliza el codigo y lo pasa a mayuscula
     private static String normalizar(String codigo) {
         return codigo.replaceAll("[\\p{javaWhitespace}\\p{Z}]", "").toLowerCase(Locale.ROOT);
     }
 
+    // Metodo que retorna la lista de productos dentro de la coleccion
     public List<Producto> listarTodos() throws ErrorBaseDatosException {
         List<Producto> lista = new ArrayList<>();
         try {
@@ -54,6 +57,7 @@ public class ProductoRepositorio {
         return lista;
     }
 
+    // Metodo que agrega los productos
     public void insertar(Producto p) throws ErrorBaseDatosException, CodigoDuplicadoException {
         Document doc = new Document("codigo", p.getCodigo())
                 .append("codigoNorm", normalizar(p.getCodigo()))
@@ -74,6 +78,7 @@ public class ProductoRepositorio {
         }
     }
 
+    // Metodo que actualiza
     public void actualizar(Producto p) throws ErrorBaseDatosException, ProductoNoEncontradoException {
         try {
             long coincidencias = coleccion.updateOne(
@@ -92,6 +97,7 @@ public class ProductoRepositorio {
         }
     }
 
+    // Elimina producto seleccionado
     public void eliminar(String codigo) throws ErrorBaseDatosException, ProductoNoEncontradoException {
         try {
             long borrados = coleccion.deleteOne(Filters.eq("codigoNorm", normalizar(codigo))).getDeletedCount();
