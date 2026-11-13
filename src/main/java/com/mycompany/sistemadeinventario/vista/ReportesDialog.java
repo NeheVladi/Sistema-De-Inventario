@@ -39,6 +39,7 @@ public class ReportesDialog extends JDialog {
     };
     private final JLabel lblResumen = new JLabel(" ");
 
+    // Constructor.
     public ReportesDialog(Frame padre, List<Producto> productos) {
         super(padre, "Reportes de inventario", true);
         this.productos = productos;
@@ -78,6 +79,7 @@ public class ReportesDialog extends JDialog {
         setLocationRelativeTo(padre);
     }
 
+    // Genera la tabla de reportes donde se listan todos los productos.
     private void generar() {
         String categoria = (String) cmbCategoria.getSelectedItem();
         actual = servicio.generar(cmbTipo.getSelectedIndex(), categoria, productos);
@@ -90,6 +92,7 @@ public class ReportesDialog extends JDialog {
         lblResumen.setText(servicio.resumen(actual));
     }
 
+    // Método para exportar en csv.
     private void exportar() {
         if (actual.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El reporte no tiene registros para exportar.",

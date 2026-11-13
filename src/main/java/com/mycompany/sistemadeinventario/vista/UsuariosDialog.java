@@ -52,6 +52,7 @@ public class UsuariosDialog extends JDialog {
     private final JButton btnEliminar = new JButton("Eliminar");
     private final JButton btnLimpiar = new JButton("Limpiar");
 
+    // Constructor. 
     public UsuariosDialog(Frame padre, ServicioUsuarios servicio) {
         super(padre, "Gestión de usuarios", true);
         this.servicio = servicio;
@@ -81,8 +82,9 @@ public class UsuariosDialog extends JDialog {
         setLocationRelativeTo(padre);
     }
 
-    // ---------- Interfaz ----------
+    // ---------- Interfaz---------
 
+    // Construir la tabla.
     private JPanel construirTabla() {
         JPanel p = new JPanel(new BorderLayout(0, 6));
         tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -93,6 +95,7 @@ public class UsuariosDialog extends JDialog {
         return p;
     }
 
+    // Construir el formulario.
     private JPanel construirFormulario() {
         panelForm.setPreferredSize(new Dimension(330, 0));
         agregarFila(panelForm, 0, "Usuario:", txtUsuario);
@@ -124,6 +127,7 @@ public class UsuariosDialog extends JDialog {
         return panelForm;
     }
 
+    // Agrega las filas dentró de las tablas.
     private void agregarFila(JPanel panel, int fila, String etiqueta, Component campo) {
         GridBagConstraints c = new GridBagConstraints();
         c.gridy = fila;
@@ -139,6 +143,7 @@ public class UsuariosDialog extends JDialog {
 
     // ---------- Operaciones ----------
 
+    // Método que agregar los usuarios.
     private void agregar() {
         try {
             servicio.crear(txtUsuario.getText(), txtCorreo.getText(),
@@ -153,6 +158,7 @@ public class UsuariosDialog extends JDialog {
         }
     }
 
+    // Método que modifica los usuarios.
     private void modificar() {
         if (usuarioSeleccionado == null) {
             aviso("Seleccione un usuario de la tabla.");
@@ -171,6 +177,7 @@ public class UsuariosDialog extends JDialog {
         }
     }
 
+    // Método que elimina un usuario seleccionado.
     private void eliminar() {
         if (usuarioSeleccionado == null) {
             aviso("Seleccione un usuario de la tabla.");
@@ -194,6 +201,7 @@ public class UsuariosDialog extends JDialog {
 
     // ---------- Apoyo ----------
 
+    // Método para recargar la tabla.
     private void recargar() {
         try {
             List<Usuario> lista = servicio.listar();
@@ -208,6 +216,7 @@ public class UsuariosDialog extends JDialog {
         }
     }
 
+    // Método que extrae la selección de la tabla.
     private void cargarSeleccion() {
         int fila = tabla.getSelectedRow();
         if (fila < 0) {
@@ -222,6 +231,7 @@ public class UsuariosDialog extends JDialog {
         actualizarEstado();
     }
 
+    // Limpia el formulario.
     private void limpiarFormulario() {
         tabla.clearSelection();
         usuarioSeleccionado = null;
@@ -233,6 +243,7 @@ public class UsuariosDialog extends JDialog {
         txtUsuario.requestFocusInWindow();
     }
 
+    // Actualiza los usuarios dentro de la tabla.
     private void actualizarEstado() {
         boolean haySeleccion = usuarioSeleccionado != null;
         btnAgregar.setEnabled(!haySeleccion);
@@ -243,10 +254,12 @@ public class UsuariosDialog extends JDialog {
         panelForm.repaint();
     }
 
+    // Avisos.
     private void aviso(String texto) {
         JOptionPane.showMessageDialog(this, texto, "Aviso", JOptionPane.WARNING_MESSAGE);
     }
 
+    // Avisos.
     private void info(String texto) {
         JOptionPane.showMessageDialog(this, texto, "Sistema de Inventario", JOptionPane.INFORMATION_MESSAGE);
     }

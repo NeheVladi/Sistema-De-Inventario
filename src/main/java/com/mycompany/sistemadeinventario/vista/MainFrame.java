@@ -79,6 +79,7 @@ public class MainFrame extends JFrame {
     private final JButton btnStock = new JButton("Ajustar stock");
     private final JButton btnLimpiar = new JButton("Limpiar");
 
+    // Constructor.
     public MainFrame(ServicioAutenticacion servicio) throws ErrorBaseDatosException {
         super("Sistema de Inventario");
         if (!SesionActual.estaActiva()) {
@@ -126,6 +127,7 @@ public class MainFrame extends JFrame {
         return p;
     }
 
+    // Método que construye un panel general donde se ingresan los datos del producto.
     private JPanel construirCentro() {
         JPanel p = new JPanel(new BorderLayout(0, 6));
 
@@ -147,6 +149,7 @@ public class MainFrame extends JFrame {
         return p;
     }
 
+    // Método que crea el formulario para la tabla.
     private JPanel construirFormulario() {
         JPanel p = new JPanel(new GridBagLayout());
         p.setBorder(BorderFactory.createTitledBorder("Producto"));
@@ -180,6 +183,7 @@ public class MainFrame extends JFrame {
         return p;
     }
 
+    // Agrega la fila dentro de la tabla.
     private void agregarFila(JPanel p, int fila, String etiqueta, Component campo) {
         GridBagConstraints c = new GridBagConstraints();
         c.gridy = fila;
@@ -193,6 +197,7 @@ public class MainFrame extends JFrame {
         p.add(campo, c);
     }
 
+    // Método que captura los eventos de los botones en general.
     private void configurarEventos() {
         btnRegistrar.addActionListener(e -> registrarProducto());
         btnModificar.addActionListener(e -> modificarProducto());
@@ -240,6 +245,7 @@ public class MainFrame extends JFrame {
         }
     }
 
+    // Válida la modificaciones del producto.
     private void modificarProducto() {
         if (codigoSeleccionado == null) {
             aviso("Seleccione un producto de la tabla.");
@@ -260,6 +266,7 @@ public class MainFrame extends JFrame {
         }
     }
 
+    // Método para eliminar productos
     private void eliminarProducto() {
         if (codigoSeleccionado == null) {
             aviso("Seleccione un producto de la tabla.");
@@ -284,6 +291,7 @@ public class MainFrame extends JFrame {
         }
     }
 
+    // Modifica la cantidad de productos dentro del inventario.
     private void ajustarStock() {
         if (codigoSeleccionado == null) {
             aviso("Seleccione un producto de la tabla.");
@@ -312,6 +320,7 @@ public class MainFrame extends JFrame {
         }
     }
 
+    // Método muestra el nombre del usuario dentro de la interfaz.
     private void abrirUsuarios() {
         try {
             new UsuariosDialog(this, new ServicioUsuarios()).setVisible(true);
@@ -322,6 +331,7 @@ public class MainFrame extends JFrame {
         }
     }
 
+    // Método cerrar sesión.
     private void cerrarSesion() {
         int r = JOptionPane.showConfirmDialog(this, "¿Desea cerrar la sesión?", "Cerrar sesión",
                 JOptionPane.YES_NO_OPTION);
@@ -338,7 +348,7 @@ public class MainFrame extends JFrame {
         }
     }
 
-    // ---------- Apoyo ----------
+    // ---------- Apoyo leer formulario----------
 
     private Producto leerFormulario(String codigo) {
         double precio = Double.parseDouble(txtPrecio.getText().trim().replace(',', '.'));
@@ -417,6 +427,7 @@ public class MainFrame extends JFrame {
         actualizarEstadoBotones();
     }
 
+    // Método para cargar la selección de la tabla.
     private void cargarSeleccion() {
         int fila = tabla.getSelectedRow();
         if (fila < 0) {
@@ -450,6 +461,7 @@ public class MainFrame extends JFrame {
         cmbCategoria.setSelectedItem(categoria);
     }
 
+    // Método limpiar formulario.
     private void limpiarFormulario() {
         tabla.clearSelection();
         codigoSeleccionado = null;
@@ -463,6 +475,7 @@ public class MainFrame extends JFrame {
         txtCodigo.requestFocusInWindow();
     }
 
+    // Métodos para actualizar los estados del boton. 
     private void actualizarEstadoBotones() {
         boolean haySeleccion = codigoSeleccionado != null;
         txtCodigo.setEditable(!haySeleccion); // el código no se modifica
@@ -473,6 +486,7 @@ public class MainFrame extends JFrame {
                 && SesionActual.getUsuario().esAdministrador());
     }
 
+    // Método actualiza el usuario.
     private void actualizarEncabezado() {
         Usuario u = SesionActual.getUsuario();
         if (u != null) {
@@ -480,16 +494,19 @@ public class MainFrame extends JFrame {
         }
     }
 
+    // Método que avisa si hay desconexión.
     private void errorBD(ErrorBaseDatosException ex) {
         JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de base de datos", JOptionPane.ERROR_MESSAGE);
         recargar(); // mantiene la vista sincronizada con MongoDB
         limpiarFormulario();
     }
-
+    
+    // Avisos.
     private void aviso(String texto) {
         JOptionPane.showMessageDialog(this, texto, "Aviso", JOptionPane.WARNING_MESSAGE);
     }
 
+    // Información.
     private void info(String texto) {
         JOptionPane.showMessageDialog(this, texto, "Sistema de Inventario", JOptionPane.INFORMATION_MESSAGE);
     }

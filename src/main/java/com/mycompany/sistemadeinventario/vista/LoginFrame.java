@@ -45,6 +45,7 @@ public class LoginFrame extends JFrame {
     private final JPasswordField txtRegConfirmar = new JPasswordField(20);
     private final JButton btnRegistrar = new JButton("Crear administrador");
 
+    // Constructor de la ventana de login.
     public LoginFrame(ServicioAutenticacion servicio) throws ErrorBaseDatosException {
         super("Sistema de Inventario - Acceso");
         this.servicio = servicio;
@@ -60,7 +61,7 @@ public class LoginFrame extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
     }
-
+    // Método que construye el panel de login.
     private JPanel construirPanelLogin() {
         JPanel p = new JPanel(new BorderLayout(0, 12));
         p.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
@@ -78,6 +79,7 @@ public class LoginFrame extends JFrame {
         return p;
     }
 
+   // Método que construye el panel de resgistro. 
     private JPanel construirPanelRegistro() {
         JPanel p = new JPanel(new BorderLayout(0, 12));
         p.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
@@ -106,13 +108,15 @@ public class LoginFrame extends JFrame {
         txtRegConfirmar.addActionListener(e -> registrarAdministrador());
         return p;
     }
-
+    
+    // Método que construye un texto.
     private JLabel titulo(String texto) {
         JLabel l = new JLabel(texto, SwingConstants.CENTER);
         l.setFont(l.getFont().deriveFont(Font.BOLD, 18f));
         return l;
     }
 
+    // Método que construye la tabla.
     private void fila(JPanel panel, int fila, String etiqueta, java.awt.Component campo) {
         GridBagConstraints c = new GridBagConstraints();
         c.gridy = fila;
@@ -126,6 +130,7 @@ public class LoginFrame extends JFrame {
         panel.add(campo, c);
     }
 
+    // Método de inicio de sesión extra el texto de los editTetx.
     private void iniciarSesion() {
         String usuario = txtUsuario.getText().trim();
         char[] clave = txtClave.getPassword();
@@ -149,6 +154,7 @@ public class LoginFrame extends JFrame {
         }
     }
 
+    // Método que extrae la información de la ventana del Administrador login.
     private void registrarAdministrador() {
         String usuario = txtRegUsuario.getText().trim();
         String correo = txtRegCorreo.getText().trim();
@@ -177,6 +183,7 @@ public class LoginFrame extends JFrame {
         }
     }
 
+    // Método mostrar un mensaje en pantalla. 
     private void mensaje(String texto, int tipo) {
         JOptionPane.showMessageDialog(this, texto, "Sistema de Inventario", tipo);
     }
