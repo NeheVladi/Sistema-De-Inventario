@@ -23,7 +23,8 @@ public final class ValidadorUsuario {
         }
         return n;
     }
-
+    
+    // Método para válidar el correo electrónico.
     public static String validarCorreo(String correo) throws DatosInvalidosException {
         String c = correo == null ? "" : correo.trim();
         if (!PATRON_CORREO.matcher(c).matches()) {
@@ -32,6 +33,7 @@ public final class ValidadorUsuario {
         return c;
     }
 
+    // Validar clave.
     public static void validarClave(char[] clave, char[] confirmacion) throws DatosInvalidosException {
         if (clave == null || clave.length < 8) {
             throw new DatosInvalidosException("La contraseña debe tener al menos 8 caracteres.");

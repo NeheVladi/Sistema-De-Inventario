@@ -19,10 +19,11 @@ public class ServicioAutenticacion {
 
     private final UsuarioRepositorio repositorio;
 
+    // Constructor. 
     public ServicioAutenticacion() throws ErrorBaseDatosException {
         this.repositorio = new UsuarioRepositorio();
     }
-
+    // Método que compueba el admistrador.
     public boolean requiereRegistroAdministrador() throws ErrorBaseDatosException {
         return repositorio.contar() == 0;
     }
@@ -42,7 +43,7 @@ public class ServicioAutenticacion {
             limpiar(confirmacion);
         }
     }
-
+    // Comprueba el usuario de inicio de sesión.
     public Usuario iniciarSesion(String identificador, char[] clave)
             throws CredencialesInvalidasException, ErrorBaseDatosException {
         try {
@@ -60,11 +61,11 @@ public class ServicioAutenticacion {
             limpiar(clave);
         }
     }
-
+    // Cierra sesión.
     public void cerrarSesion() {
         SesionActual.cerrar();
     }
-
+    // Sólo limpia los datos. 
     private static void limpiar(char[] datos) {
         if (datos != null) Arrays.fill(datos, '\0');
     }

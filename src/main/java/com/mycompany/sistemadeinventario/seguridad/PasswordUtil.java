@@ -16,14 +16,17 @@ public final class PasswordUtil {
     private static final int LONGITUD_SAL_BYTES = 16;
     private static final SecureRandom RANDOM = new SecureRandom();
 
+   // Constructor vacío 
     private PasswordUtil() { }
-
+    
+   // Genera Sal que será utitlizada dentro de la contraseña 
     public static String generarSal() {
         byte[] sal = new byte[LONGITUD_SAL_BYTES];
         RANDOM.nextBytes(sal);
         return Base64.getEncoder().encodeToString(sal);
     }
 
+    // Genera el hash utilizando el: PBKDF2-HMAC-SHA256
     public static String hash(char[] clave, String salBase64) {
         PBEKeySpec spec = new PBEKeySpec(clave, Base64.getDecoder().decode(salBase64),
                 ITERACIONES, LONGITUD_CLAVE_BITS);
@@ -37,6 +40,7 @@ public final class PasswordUtil {
         }
     }
 
+    // Verifica el hash con la clave ingresada por el usuario
     public static boolean verificar(char[] clave, String salBase64, String hashEsperado) {
         byte[] calculado = Base64.getDecoder().decode(hash(clave, salBase64));
         byte[] esperado = Base64.getDecoder().decode(hashEsperado);

@@ -51,11 +51,11 @@ public class ServicioReportes {
         }
         return resultado;
     }
-
+    // Precio del producto por el stock y retorna el valor.
     public static double valorDe(Producto p) {
         return p.getPrecio() * p.getStock();
     }
-
+    // Método encargado de generar el valor total de todos los productos del inventario.
     public String resumen(List<Producto> lista) {
         long unidades = 0;
         double valor = 0;
@@ -66,7 +66,7 @@ public class ServicioReportes {
         return String.format("Productos: %d  |  Unidades en stock: %d  |  Valor total: $%.2f",
                 lista.size(), unidades, valor);
     }
-
+    // Exporta Csv texto plano. 
     public void exportarCsv(List<Producto> lista, Path destino) throws ErrorArchivoException {
         List<String> lineas = new ArrayList<>();
         lineas.add("Codigo,Nombre,Descripcion,Categoria,Precio,Stock,Valor");

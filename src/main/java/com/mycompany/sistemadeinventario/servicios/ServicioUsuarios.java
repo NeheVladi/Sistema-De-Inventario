@@ -15,11 +15,13 @@ import java.util.List;
 /** Administración de usuarios (listar, crear, modificar, eliminar). Solo disponible para el administrador. */
 public class ServicioUsuarios {
     private final UsuarioRepositorio repositorio;
-
+    
+    // Constructor.
     public ServicioUsuarios() throws ErrorBaseDatosException {
         this.repositorio = new UsuarioRepositorio();
     }
-
+    
+    // Método encargado que válida la exista un administrador activo. 
     private Usuario exigirAdministrador() throws DatosInvalidosException {
         Usuario actual = SesionActual.getUsuario();
         if (actual == null || !actual.esAdministrador()) {
@@ -27,7 +29,8 @@ public class ServicioUsuarios {
         }
         return actual;
     }
-
+    
+    // Lista de los usuarios que retorna.
     public List<Usuario> listar() throws ExcepcionGeneral {
         exigirAdministrador();
         return repositorio.listarTodos();
@@ -82,7 +85,8 @@ public class ServicioUsuarios {
             limpiar(confirmacion);
         }
     }
-
+    
+    // Elimina usuario.
     public void eliminar(String nombreUsuario) throws ExcepcionGeneral {
         Usuario actual = exigirAdministrador();
         Usuario objetivo = repositorio.buscarPorIdentificador(nombreUsuario);
@@ -97,7 +101,7 @@ public class ServicioUsuarios {
         }
         repositorio.eliminar(objetivo.getNombreUsuario());
     }
-
+    // Limpia los espacios vacío. 
     private static void limpiar(char[] datos) {
         if (datos != null) Arrays.fill(datos, '\0');
     }

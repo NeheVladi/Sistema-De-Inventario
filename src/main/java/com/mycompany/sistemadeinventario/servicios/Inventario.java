@@ -8,10 +8,12 @@ import com.mycompany.sistemadeinventario.modelo.Producto;
 import java.util.ArrayList;
 import java.util.List;
 
+// Clase encargada de crear la lista de productos dentro del inventario.
 public class Inventario {
     private List<Producto> productos = new ArrayList<>();
     private Producto productoSeleccionado;
 
+    // Método encargado de registrar los productos y comprobar si está disponible el código.
     public void registrarProducto(Producto p) throws DatosInvalidosException, CodigoDuplicadoException {
         if (p == null || !p.validarDatos()) {
             throw new DatosInvalidosException("Los datos del producto son inválidos.");
@@ -32,15 +34,18 @@ public class Inventario {
             }
         }
     }
-
+    
+    // Este método normaliza el código también válida si esta vacío.
     private static String normalizarCodigo(String codigo) {
         return codigo == null ? "" : codigo.replaceAll("[\\p{javaWhitespace}\\p{Z}]", "");
     }
-
+    
+    // Método para evitar códigos duplicados.
     private static boolean codigosIguales(String primero, String segundo) {
         return normalizarCodigo(primero).equalsIgnoreCase(normalizarCodigo(segundo));
     }
 
+    // Este método modifica los productos.
     public void modificarProducto(Producto p) throws ProductoNoEncontradoException, DatosInvalidosException {
         if (p == null || !p.validarDatos()) {
             throw new DatosInvalidosException("Los datos del producto son inválidos.");
@@ -52,7 +57,7 @@ public class Inventario {
         existente.setPrecio(p.getPrecio());
         existente.setStock(p.getStock());
     }
-
+    // Elimina los productos a partir de su código.
     public void eliminarProducto(String codigo) throws ProductoNoEncontradoException {
         Producto p = buscarProducto(codigo);
         productos.remove(p);
@@ -60,7 +65,7 @@ public class Inventario {
             productoSeleccionado = null;
         }
     }
-
+    // Buscar los productos a partir de su código.
     public Producto buscarProducto(String codigo) throws ProductoNoEncontradoException {
         codigo = codigo == null ? "" : codigo.trim();
         for (Producto p : productos) {
@@ -71,11 +76,13 @@ public class Inventario {
         }
         throw new ProductoNoEncontradoException("No existe un producto con el código: " + codigo);
     }
-
+    
+    // Genera la lista de productos de inventario. 
     public List<Producto> consultarInventario() {
         return new ArrayList<>(productos);
     }
-
+    
+    // Retorna el producto seleccionado
     public Producto getProductoSeleccionado() {
         return productoSeleccionado;
     }
